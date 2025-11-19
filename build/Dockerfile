@@ -56,6 +56,7 @@ RUN set -x \
     && echo "deb [signed-by=/usr/share/keyrings/nginx_signing.key] http://nginx.org/packages/mainline/ubuntu/ noble nginx" > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install -yq --no-install-recommends \
         nginx \
+        php-fpm8.3 \
         php8.3-bcmath \
         php8.3-cli \
         php8.3-curl \
