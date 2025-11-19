@@ -1,5 +1,3 @@
-# dc-wireguard-client
+# docker-wireguard-nginx
 
-Docker-Compose Ubuntu Server with SSH, WireGuard, Squid_Proxy services
-
-!!! After clone repository, delete file data-squid/.gitkeep. Directory ./data-squid must be empty before run Docker.
+Docker-Compose Ubuntu Server with SSH, WireGuard Client, Ngnix Web Server with php-fpm services
