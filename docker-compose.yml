@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    ubuntu-server:
+        container_name: wireguard-nginx
+        restart: unless-stopped
+        hostname: wireguard-nginx
+        cap_add:
+            - NET_ADMIN
+            - SYS_MODULE
+        build:
+            context: ./build
+            dockerfile: Dockerfile.ubuntu-server
+            args:
+                IMAGE_VERSION: 18.04
+                ADD_USER_NAME: user1
+                ADD_USER_PASSWORD: changeme
+                ADD_USER_SUDO: "yes"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /lib/modules:/lib/modules:ro
+            - ./data-wireguard-client:/etc/wireguard/
+            - ./data-nginx:/etc/nginx/
+            - ./data-html:/usr/share/nginx/html
+        networks:
+            - wnn
+        ports:
+            - 42222:2222
+            - 42080:80
+
+networks:
+    wnn:
+        name: wnn
+        ipam:
+            driver: default
