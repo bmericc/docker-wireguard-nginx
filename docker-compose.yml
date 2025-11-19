@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-    ubuntu-server:
+    wireguard-nginx:
         container_name: wireguard-nginx
         restart: unless-stopped
         hostname: wireguard-nginx
@@ -17,13 +17,7 @@ services:
             - ./data-wireguard-client:/etc/wireguard/
             - ./data-nginx:/etc/nginx/
             - ./data-html:/usr/share/nginx/html/
-        networks:
-            - wnn
         ports:
             - 42222:22
             - 42080:80
 
-networks:
-    wnn:
-        name: wnn
-        external: true
