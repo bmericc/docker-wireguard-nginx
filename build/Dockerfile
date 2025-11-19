@@ -72,7 +72,6 @@ RUN set -x \
         php8.3-zip \
         php8.3-imagick \
         php8.3-redis \
-    && pip install  --break-system-packages --no-cache-dir supervisor supervisor-stdout \
     && printf "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d \
     && apt-get autoremove --purge -y \
         software-properties-common \
