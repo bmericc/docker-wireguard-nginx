@@ -25,6 +25,7 @@ iptables \
 ifupdown \
 wireguard \
 curl \
+nano \
 lynx \
 htop \
 build-essential \
