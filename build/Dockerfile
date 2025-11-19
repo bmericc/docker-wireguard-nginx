@@ -1,18 +1,11 @@
 ARG IMAGE_VERSION
-FROM ubuntu:${IMAGE_VERSION}
+FROM ubuntu:24.04
 
 #ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Istanbul 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 USER root
-
-# Args For Users Settings
-ARG ROOT_USER_PASSWORD
-
-ARG ADD_USER_NAME
-ARG ADD_USER_PASSWORD
-ARG ADD_USER_SUDO
 
 ### Update OS
 RUN apt-get -y update && apt-get -y upgrade
@@ -42,13 +35,6 @@ supervisor
 # ./conf/supervisor/supervisord.conf
 # ./conf/nginx/conf.d/default.conf
 # ./php/{php_version}/*
-ENV PHP_VERSION 8.3
-# `apt-cache madison php8.1` to list available minor versions
-ENV COMPOSER_VERSION 2.4.4
-
-RUN set -x \
-    && apt-get update \
-    && apt-cache search php* 
 
 # Install Craft Requirements
 RUN set -x \
@@ -70,22 +56,22 @@ RUN set -x \
     && echo "deb [signed-by=/usr/share/keyrings/nginx_signing.key] http://nginx.org/packages/mainline/ubuntu/ noble nginx" > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install -yq --no-install-recommends \
         nginx \
-        php${PHP_VERSION}-bcmath \
-        php${PHP_VERSION}-cli \
-        php${PHP_VERSION}-curl \
-        php${PHP_VERSION}-fpm \
-        php${PHP_VERSION}-gd \
-        php${PHP_VERSION}-gmp \
-        php${PHP_VERSION}-intl \
-        php${PHP_VERSION}-mbstring \
-        php${PHP_VERSION}-mysql \
-        php${PHP_VERSION}-opcache \
-        php${PHP_VERSION}-readline \
-        php${PHP_VERSION}-soap \
-        php${PHP_VERSION}-xml \
-        php${PHP_VERSION}-zip \
-        php${PHP_VERSION}-imagick \
-        php${PHP_VERSION}-redis \
+        php8.3-bcmath \
+        php8.3-cli \
+        php8.3-curl \
+        php8.3-fpm \
+        php8.3-gd \
+        php8.3-gmp \
+        php8.3-intl \
+        php8.3-mbstring \
+        php8.3-mysql \
+        php8.3-opcache \
+        php8.3-readline \
+        php8.3-soap \
+        php8.3-xml \
+        php8.3-zip \
+        php8.3-imagick \
+        php8.3-redis \
     && pip install  --break-system-packages --no-cache-dir supervisor supervisor-stdout \
     && printf "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d \
     && apt-get autoremove --purge -y \
@@ -106,10 +92,10 @@ RUN set -x \
         -e "s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=64/g" \
         -e "s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=30000/g" \
         -e "s/;opcache.revalidate_freq=2/opcache.revalidate_freq=0/g" \
-        /etc/php/${PHP_VERSION}/fpm/php.ini \
+        /etc/php/8.3/fpm/php.ini \
     && sed -i \
         -e "s/;daemonize\s*=\s*yes/daemonize = no/g" \
-        /etc/php/${PHP_VERSION}/fpm/php-fpm.conf \
+        /etc/php/8.3/fpm/php-fpm.conf \
     && sed -i \
         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
         -e "s/pm.max_children = 5/pm.max_children = 4/g" \
@@ -118,13 +104,13 @@ RUN set -x \
         -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" \
         -e "s/;pm.max_requests = 500/pm.max_requests = 200/g" \
         -e "s/^;clear_env = no$/clear_env = no/" \
-        /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+        /etc/php/8.3/fpm/pool.d/www.conf
 
 # Install Composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
   && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-  && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} \
+  && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer  \
   && rm -rf /tmp/*
 
 
@@ -135,36 +121,17 @@ COPY copyfiles/data-nginx /etc/nginx
 # Override default nginx welcome page
 COPY copyfiles/data-html /usr/share/nginx/html
 
-### Settings For Additional User
-RUN if [ -z "${ADD_USER_NAME}" ]; then \
-        echo ADD_USER_NAME is EMPTY; \
-    else \
-        if [ ${ADD_USER_SUDO} ]; then \
-            useradd -G sudo -s /bin/bash -m ${ADD_USER_NAME}; \
-        else \
-            useradd -s /bin/bash -m ${ADD_USER_NAME}; \
-        fi; \
-        echo ${ADD_USER_NAME}:${ADD_USER_PASSWORD} |chpasswd; \
-    fi
-
-
-### Setting For Service SSH
-RUN echo "PasswordAuthentication yes\nPort 22" >> /etc/ssh/sshd_config
-
-
 ### Copy Settins Files For Services
 COPY copyfiles/supervisord.conf /etc/supervisor/supervisord.conf
 COPY copyfiles/10-wireguard.conf /etc/sysctl.d/10-wireguard.conf
 
 ### Start Services
-RUN service ssh start
-RUN service php${PHP_VERSION}-fpm start
+RUN service php8.3-fpm start
 RUN service nginx start
 
-
 ### Expose Port For SSH Service
-EXPOSE 22
 EXPOSE 80
+EXPOSE 443
 
 # Running SSH Service Demon
 CMD ["/usr/bin/supervisord"]

@@ -10,12 +10,7 @@ services:
             - SYS_MODULE
         build:
             context: ./build
-            dockerfile: Dockerfile.ubuntu-server
-            args:
-                IMAGE_VERSION: 24.04
-                ADD_USER_NAME: user1
-                ADD_USER_PASSWORD: changeme
-                ADD_USER_SUDO: "yes"
+            dockerfile: Dockerfile
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /lib/modules:/lib/modules:ro
