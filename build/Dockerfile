@@ -115,11 +115,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
 
 RUN sed -i 's|listen = /run/php/php8.3-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.3/fpm/pool.d/www.conf
 
-RUN mv /usr/sbin/resolvconf /usr/sbin/resolvconf.real
-
-RUN printf "#!/bin/sh\nexit 0\n" > /usr/sbin/resolvconf
-
-RUN chmod +x /usr/sbin/resolvconf
+COPY copyfiles/resolvconf /usr/sbin/resolvconf
 
 # Nginx config
 COPY copyfiles/data-nginx /etc/nginx
