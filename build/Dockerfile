@@ -113,10 +113,10 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer  \
   && rm -rf /tmp/*
 
+RUN sed -i 's|listen = /run/php/php8.3-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.3/fpm/pool.d/www.conf
 
 # Nginx config
 COPY copyfiles/data-nginx /etc/nginx
-
 
 # Override default nginx welcome page
 COPY copyfiles/data-html /usr/share/nginx/html
