@@ -132,5 +132,5 @@ RUN service nginx start
 EXPOSE 80
 EXPOSE 443
 
-# Running SSH Service Demon
-CMD ["/usr/bin/supervisord"]
+# Running NGINX Service Demon
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
