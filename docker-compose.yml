@@ -12,7 +12,7 @@ services:
             context: ./build
             dockerfile: Dockerfile.ubuntu-server
             args:
-                IMAGE_VERSION: 18.04
+                IMAGE_VERSION: 24.04
                 ADD_USER_NAME: user1
                 ADD_USER_PASSWORD: changeme
                 ADD_USER_SUDO: "yes"
@@ -31,5 +31,4 @@ services:
 networks:
     wnn:
         name: wnn
-        ipam:
-            driver: default
+        external: true
