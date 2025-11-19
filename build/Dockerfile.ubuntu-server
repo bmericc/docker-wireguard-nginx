@@ -134,10 +134,6 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
 # Nginx config
 COPY data-nginx /etc/nginx
 
-# Override default nginx welcome page
-COPY data-html /usr/share/nginx/html
-
-
 ### Settings For Additional User
 RUN if [ -z "${ADD_USER_NAME}" ]; then \
         echo ADD_USER_NAME is EMPTY; \
