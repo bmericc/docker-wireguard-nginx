@@ -1,13 +1,16 @@
 ARG IMAGE_VERSION
 FROM ubuntu:24.04
 
-FROM python:3.12
-
 #ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Istanbul 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 USER root
+
+
+# Fix security repo 404 issues
+RUN sed -i 's|http://security.ubuntu.com/ubuntu|http://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list
+
 
 ### Update OS
 RUN apt-get -y update && apt-get -y upgrade
@@ -49,6 +52,7 @@ RUN set -x \
         iproute2 \
         mysql-client \
         python3-pip \
+        python3-dev \
         python3-setuptools \
         python3-wheel \
         software-properties-common \
