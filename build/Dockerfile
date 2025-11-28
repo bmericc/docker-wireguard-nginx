@@ -111,7 +111,7 @@ RUN set -x \
         -e "s/^;clear_env = no$/clear_env = no/" \
         /etc/php/8.3/fpm/pool.d/www.conf
 
-RUN apt remove python3-cryptography
+RUN apt remove -y python3-cryptography
 
 RUN pip install --upgrade cryptography --break-system-packages
 
@@ -120,8 +120,6 @@ RUN pip3 install --break-system-packages \
     certbot-dns-google \
     certbot-dns-digitalocean \
     certbot-dns-he
-
-
 
 # Install Composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
