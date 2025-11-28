@@ -106,11 +106,6 @@ RUN set -x \
         -e "s/^;clear_env = no$/clear_env = no/" \
         /etc/php/8.3/fpm/pool.d/www.conf
 
-RUN set -x \
-    && apt-get install -yq --no-install-recommends \
-        certbot \
-        python3-certbot-nginx 
-
 RUN pip3 install --break-system-packages \
     certbot-dns-cloudflare \
     certbot-dns-google \
