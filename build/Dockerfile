@@ -29,6 +29,7 @@ nano \
 lynx \
 htop \
 build-essential \
+python3-dev \
 supervisor
 
 
