@@ -50,6 +50,8 @@ RUN set -x \
         gnupg2 \
         iproute2 \
         mysql-client \
+        libffi-dev \
+        libssl-dev \
         python3-pip \
         python3-dev \
         python3-setuptools \
