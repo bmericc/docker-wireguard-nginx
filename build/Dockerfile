@@ -1,6 +1,8 @@
 ARG IMAGE_VERSION
 FROM ubuntu:24.04
 
+FROM python:3.12
+
 #ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Istanbul 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -29,7 +31,6 @@ nano \
 lynx \
 htop \
 build-essential \
-python3-dev \
 supervisor
 
 
