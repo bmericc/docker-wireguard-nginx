@@ -37,7 +37,7 @@ supervisor
 # ./conf/nginx/conf.d/default.conf
 # ./php/{php_version}/*
 
-# Install Craft Requirements
+# Install Requirements
 RUN set -x \
     && apt-get update \
     && apt-get install -yq --no-install-recommends \
@@ -52,7 +52,6 @@ RUN set -x \
         software-properties-common \
         unzip \
         zip \
-#    && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
     && curl -o /usr/share/keyrings/nginx_signing.key http://nginx.org/keys/nginx_signing.key \
     && echo "deb [signed-by=/usr/share/keyrings/nginx_signing.key] http://nginx.org/packages/mainline/ubuntu/ noble nginx" > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install -yq --no-install-recommends \
@@ -107,6 +106,17 @@ RUN set -x \
         -e "s/^;clear_env = no$/clear_env = no/" \
         /etc/php/8.3/fpm/pool.d/www.conf
 
+RUN set -x \
+    && apt-get install -yq --no-install-recommends \
+        certbot \
+        python3-certbot-nginx 
+
+RUN pip3 install --break-system-packages \
+    certbot-dns-cloudflare \
+    certbot-dns-google \
+    certbot-dns-digitalocean \
+    certbot-dns-he
+
 # Install Composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
@@ -133,6 +143,7 @@ RUN service php8.3-fpm start
 RUN service nginx start
 
 ### Expose Port For SSH Service
+EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 

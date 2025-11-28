@@ -16,8 +16,10 @@ services:
             - /lib/modules:/lib/modules:ro
             - ./data-wireguard-client:/etc/wireguard/
             - ./data-nginx:/etc/nginx/
+            - ./data-letsencrypt:/etc/letsencrypt/
             - ./data-html:/usr/share/nginx/html/
         ports:
             - 42222:22
             - 42080:80
+            - 42443:443
 
