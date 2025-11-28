@@ -134,6 +134,9 @@ RUN sed -i 's|listen = /run/php/php8.3-fpm.sock|listen = 0.0.0.0:9000|' /etc/php
 
 COPY copyfiles/resolvconf /usr/sbin/resolvconf
 
+# Letsencrypt config
+COPY copyfiles/data-letsencrypt /etc/letsencrypt
+
 # Nginx config
 COPY copyfiles/data-nginx /etc/nginx
 
