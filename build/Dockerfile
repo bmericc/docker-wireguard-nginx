@@ -10,9 +10,9 @@ USER root
 # Fix security repo 404 issues
 RUN sed -i 's|http://security.ubuntu.com/ubuntu|http://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list
 
-
 ### Update OS
-RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y update 
+RUN apt-get -y upgrade
 
 ### Install Packages
 RUN apt-get -y install \
@@ -33,8 +33,10 @@ nano \
 lynx \
 htop \
 build-essential \
-supervisor
+supervisor \
+software-properties-common
 
+RUN add-apt-repository ppa:ondrej/nginx -y
 
 # NOTE: When updating PHP_VERSION, update the following as well:
 # ./conf/supervisor/supervisord.conf
