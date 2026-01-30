@@ -34,6 +34,7 @@ lynx \
 htop \
 build-essential \
 supervisor \
+fail2ban \
 software-properties-common
 
 RUN add-apt-repository ppa:ondrej/nginx -y
