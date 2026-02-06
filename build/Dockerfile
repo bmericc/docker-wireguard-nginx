@@ -125,6 +125,9 @@ RUN pip3 install --break-system-packages \
     certbot-dns-digitalocean \
     certbot-dns-he
 
+RUN pip3 install --break-system-packages \
+    speedtest-cli
+
 # Install Composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
