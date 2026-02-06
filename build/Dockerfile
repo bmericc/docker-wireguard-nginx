@@ -24,7 +24,6 @@ iputils-ping \
 iproute2 \
 traceroute \
 sudo \
-openssh-server \
 iptables \
 ifupdown \
 wireguard \
