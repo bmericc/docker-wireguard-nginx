@@ -115,7 +115,7 @@ RUN set -x \
         -e "s/^;clear_env = no$/clear_env = no/" \
         /etc/php/8.3/fpm/pool.d/www.conf
 
-RUN apt remove -y python3-cryptography
+#RUN apt remove -y python3-cryptography
 
 RUN pip install --upgrade cryptography --break-system-packages
 
@@ -154,7 +154,6 @@ RUN service php8.3-fpm start
 RUN service nginx start
 
 ### Expose Port For SSH Service
-EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 
