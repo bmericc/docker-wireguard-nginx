@@ -8,9 +8,10 @@ services:
         cap_add:
             - NET_ADMIN
             - SYS_MODULE
-        build:
-            context: ./build
-            dockerfile: Dockerfile
+        image: bahricanli/docker-wireguard-nginx:1.0.4
+#        build:
+#            context: ./build
+#            dockerfile: Dockerfile
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /lib/modules:/lib/modules:ro
