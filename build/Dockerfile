@@ -152,10 +152,6 @@ COPY copyfiles/data-html /usr/share/nginx/html
 COPY copyfiles/supervisord.conf /etc/supervisor/supervisord.conf
 COPY copyfiles/10-wireguard.conf /etc/sysctl.d/10-wireguard.conf
 
-### Start Services
-RUN service php8.4-fpm start
-RUN service nginx start
-
 ### Expose Port For SSH Service
 EXPOSE 80
 EXPOSE 443
