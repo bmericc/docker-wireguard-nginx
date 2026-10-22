@@ -129,11 +129,8 @@ RUN pip3 install --break-system-packages \
     speedtest-cli
 
 # Install Composer
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
-  && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
-  && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-  && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer  \
-  && rm -rf /tmp/*
+RUN curl -sS https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer \
+  && chmod +x /usr/local/bin/composer
 
 RUN sed -i 's|listen = /run/php/php8.4-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.4/fpm/pool.d/www.conf
 
