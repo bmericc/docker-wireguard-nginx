@@ -66,22 +66,22 @@ RUN set -x \
     && apt-get update && apt-get install -yq --no-install-recommends \
         nginx \
         php-fpm \
-        php8.3-bcmath \
-        php8.3-cli \
-        php8.3-curl \
-        php8.3-fpm \
-        php8.3-gd \
-        php8.3-gmp \
-        php8.3-intl \
-        php8.3-mbstring \
-        php8.3-mysql \
-        php8.3-opcache \
-        php8.3-readline \
-        php8.3-soap \
-        php8.3-xml \
-        php8.3-zip \
-        php8.3-imagick \
-        php8.3-redis \
+        php8.4-bcmath \
+        php8.4-cli \
+        php8.4-curl \
+        php8.4-fpm \
+        php8.4-gd \
+        php8.4-gmp \
+        php8.4-intl \
+        php8.4-mbstring \
+        php8.4-mysql \
+        php8.4-opcache \
+        php8.4-readline \
+        php8.4-soap \
+        php8.4-xml \
+        php8.4-zip \
+        php8.4-imagick \
+        php8.4-redis \
     && printf "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d \
     && apt-get autoremove --purge -y \
         software-properties-common \
@@ -101,10 +101,10 @@ RUN set -x \
         -e "s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=64/g" \
         -e "s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=30000/g" \
         -e "s/;opcache.revalidate_freq=2/opcache.revalidate_freq=0/g" \
-        /etc/php/8.3/fpm/php.ini \
+        /etc/php/8.4/fpm/php.ini \
     && sed -i \
         -e "s/;daemonize\s*=\s*yes/daemonize = no/g" \
-        /etc/php/8.3/fpm/php-fpm.conf \
+        /etc/php/8.4/fpm/php-fpm.conf \
     && sed -i \
         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
         -e "s/pm.max_children = 5/pm.max_children = 4/g" \
@@ -113,7 +113,7 @@ RUN set -x \
         -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" \
         -e "s/;pm.max_requests = 500/pm.max_requests = 200/g" \
         -e "s/^;clear_env = no$/clear_env = no/" \
-        /etc/php/8.3/fpm/pool.d/www.conf
+        /etc/php/8.4/fpm/pool.d/www.conf
 
 #RUN apt remove -y python3-cryptography
 
@@ -135,7 +135,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer  \
   && rm -rf /tmp/*
 
-RUN sed -i 's|listen = /run/php/php8.3-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.3/fpm/pool.d/www.conf
+RUN sed -i 's|listen = /run/php/php8.4-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.4/fpm/pool.d/www.conf
 
 COPY copyfiles/resolvconf /usr/sbin/resolvconf
 
@@ -153,7 +153,7 @@ COPY copyfiles/supervisord.conf /etc/supervisor/supervisord.conf
 COPY copyfiles/10-wireguard.conf /etc/sysctl.d/10-wireguard.conf
 
 ### Start Services
-RUN service php8.3-fpm start
+RUN service php8.4-fpm start
 RUN service nginx start
 
 ### Expose Port For SSH Service
