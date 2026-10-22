@@ -36,7 +36,7 @@ supervisor \
 fail2ban \
 software-properties-common
 
-RUN add-apt-repository ppa:ondrej/nginx -y
+RUN add-apt-repository ppa:ondrej/php -y
 
 # NOTE: When updating PHP_VERSION, update the following as well:
 # ./conf/supervisor/supervisord.conf
